@@ -1,0 +1,23 @@
+{
+	"type": "library",
+	"name": "symphony/ORM",
+	"description": "Beginnings of a Symphony style ORM.",
+	"homepage": "http://github.com/symphony-next/symphony-fields-component/",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Rowan Lewis",
+			"email": "rl@nbsp.io",
+			"homepage": "http://nbsp.io",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0"
+	},
+	"autoload": {
+		"psr-0": {
+			"symphony\\ORM": "src/"
+		}
+	}
+}

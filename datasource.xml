@@ -1,0 +1,49 @@
+<datasource>
+	<section>
+		<item>hotel-categories</item>
+		<item>villa-categories</item>
+	</section>
+	<filters>
+		<all>
+			<and field="title" section="villa-categories">
+				<filter type="isNot">some villa</filter>
+			</and>
+			<and field="title" section="hotel-categories">
+				<filter type="isNot">some hotel</filter>
+			</and>
+			<and field="published">
+				<filter type="isChecked" />
+			</and>
+			<and field="publish-date">
+				<filter type="between">
+					<item>2012</item>
+					<item>2014</item>
+				</filter>
+			</and>
+			<any>
+				<or field="body">
+					<filter type="contains">spam spam spam spam</filter>
+				</or>
+				<or field="category">
+					<filter type="isNotNull" />
+				</or>
+			</any>
+		</all>
+		<all>
+			<and field="publish-date">
+				<filter type="laterThan">now</filter>
+			</and>
+			<and field="published">
+				<filter type="isChecked" />
+			</and>
+		</all>
+	</filters>
+	<sort>
+		<desc field="publish-date" />
+		<asc field="title" />
+	</sort>
+	<page>
+		<page>{$page}</page>
+		<size>20</size>
+	</page>
+</datasource>
