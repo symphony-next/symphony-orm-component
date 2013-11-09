@@ -1,64 +1,11 @@
 <?php
 
 	use symphony\ORM\DataFilters;
+	use symphony\ORM\Fields;
+	use symphony\ORM\Sections;
+	use symphony\ORM\Settings;
 
 	require_once 'vendor/autoload.php';
-
-	class Named {
-		protected $name;
-
-		public function __construct($name) {
-			$this->name = $name;
-		}
-
-		public function getName() {
-			return $this->name;
-		}
-	}
-
-	class TextField extends Named {
-		public function listFilters() {
-			return [
-				new DataFilters\Equality()
-			];
-		}
-	}
-
-	class DateField extends Named {
-		public function listFilters() {
-			return [
-				new DataFilters\DateEquality(),
-				new DataFilters\DateRange()
-			];
-		}
-	}
-
-	class Section extends Named {
-		protected $fields;
-
-		public function __construct($name) {
-			parent::__construct($name);
-
-			$fields = [
-				new TextField('title'),
-				new TextField('copy'),
-				new DateField('date')
-			];
-			$this->fields = [];
-
-			foreach ($fields as $field) {
-				$this->fields[$field->getName()] = $field;
-			}
-		}
-
-		public function getField($name) {
-			return $this->fields[$name];
-		}
-
-		public function listFields() {
-			return $this->fields;
-		}
-	}
 
 	class SectionQuery {
 		protected $filterCurrent;
@@ -67,7 +14,7 @@
 
 		protected $section;
 
-		public function __construct(Section $section) {
+		public function __construct(Sections\Type $section) {
 			$this->filterStack = [];
 			$this->section = $section;
 		}
@@ -94,10 +41,10 @@
 
 			$callback = $callback->bindTo($this);
 			$callback(function($name) {
-				$field = $this->section->getField($name);
+				$field = $this->section->fields()->{$name};
 
 				return new DataFilters\Controller(
-					$field->listFilters(),
+					$field->filters(),
 					$this->filterCurrent->all
 				);
 			});
@@ -116,7 +63,8 @@
 		}
 	}
 
-	$section = new Section('articles');
+	$section = new Sections\Type();
+	$section->openUri('assets/section.articles.xml');
 	$query = new SectionQuery($section);
 
 	$query->all(function($and) {
@@ -125,7 +73,7 @@
 			->isNot('boofar');
 
 		$this->any(function($or) {
-			$or('date')
+			$or('publish-date')
 				->earlierThan('now');
 
 			$this->all(function($and) {

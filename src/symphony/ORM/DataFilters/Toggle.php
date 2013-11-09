@@ -2,7 +2,7 @@
 
 	namespace symphony\ORM\DataFilters;
 
-	class Checkbox implements BooleanType {
+	class Toggle implements BooleanType {
 		public function listMethods() {
 			return [
 				'filter' =>		'isChecked',

@@ -1,0 +1,17 @@
+<section>
+	<handle>Articles</handle>
+	<fields>
+		<field type="symphony\ORM\Fields\Text">
+			<handle>title</handle>
+		</field>
+		<field type="symphony\ORM\Fields\Text">
+			<handle>copy</handle>
+		</field>
+		<field type="symphony\ORM\Fields\Date">
+			<handle>publish-date</handle>
+		</field>
+		<field type="symphony\ORM\Fields\Toggle">
+			<handle>published</handle>
+		</field>
+	</fields>
+</section>
