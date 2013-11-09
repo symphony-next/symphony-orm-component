@@ -63,8 +63,31 @@
 		}
 	}
 
-	$section = new Sections\Type();
-	$section->openUri('assets/section.articles.xml');
+	class Entry {
+		protected $section;
+
+		public function __construct(Sections\Type $section) {
+			$this->section = $section;
+		}
+
+		public function validate() {
+			foreach ($this->section->fields() as $field) {
+				try {
+					foreach ($field->validate() as $result) {
+						if ($result instanceof Fields\ValidationException) {
+							yield $field => $result;
+						}
+					}
+				}
+
+				catch (Fields\ValidationException $error) {
+					yield $field => $error;
+				}
+			}
+		}
+	}
+
+	/*
 	$query = new SectionQuery($section);
 
 	$query->all(function($and) {
@@ -83,5 +106,21 @@
 			});
 		});
 	});
+	*/
 
-	var_dump($query);
+	$section = new Sections\Type();
+	$section->openUri('assets/section.articles.xml');
+	$entry = new Entry($section);
+	$valid = true;
+
+	// Validate all fields and get any errors:
+	foreach ($entry->validate() as $error) {
+		var_dump($error);
+
+		$valid = false;
+	}
+
+	// Save the entry:
+	if ($valid) {
+		$entry->save();
+	}

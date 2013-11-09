@@ -10,4 +10,8 @@
 				new DataFilters\Toggle()
 			];
 		}
+
+		public function validate() {
+			yield true;
+		}
 	}

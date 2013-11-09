@@ -9,4 +9,12 @@
 				new DataFilters\Equality()
 			];
 		}
+
+		public function validate() {
+			if ($this->settings()->required === 'yes') {
+				throw new RequiredException("'{$this->settings()->handle}' is a required field.");
+			}
+
+			yield true;
+		}
 	}

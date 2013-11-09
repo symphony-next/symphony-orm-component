@@ -3,6 +3,7 @@
 	<fields>
 		<field type="symphony\ORM\Fields\Text">
 			<handle>title</handle>
+			<required>yes</required>
 		</field>
 		<field type="symphony\ORM\Fields\Text">
 			<handle>copy</handle>

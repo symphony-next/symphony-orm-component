@@ -10,4 +10,8 @@
 				new DataFilters\DateRange()
 			];
 		}
+
+		public function validate() {
+			yield true;
+		}
 	}
