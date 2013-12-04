@@ -4,8 +4,9 @@
 	use symphony\ORM\Fields;
 	use symphony\ORM\Settings;
 	use DOMDocument;
+	use Exception;
 
-	class Type {
+	class Section {
 		protected $fields;
 		protected $settings;
 
@@ -21,6 +22,27 @@
 			$document->load($file);
 
 			$this->settings->fromXML($document->documentElement);
+		}
+
+		public function install() {
+			$db = database();
+
+			try {
+				$db->beginTransaction();
+
+				foreach ($this->fields as $field) {
+					$format = $field->format();
+					$format->install($this, $field);
+				}
+
+				$db->commit();
+			}
+
+			catch (Exception $error) {
+				$db->rollBack();
+
+				throw $error;
+			}
 		}
 
 		public function settings() {

@@ -1,94 +1,15 @@
 <?php
 
-	use symphony\ORM\DataFilters;
-	use symphony\ORM\Fields;
-	use symphony\ORM\Sections;
-	use symphony\ORM\Settings;
+	use symphony\ORM\Queries\Entries;
+	use symphony\ORM\Sections\Entry;
+	use symphony\ORM\Sections\Section;
 
 	require_once 'vendor/autoload.php';
 
-	class SectionQuery {
-		protected $filterCurrent;
-
-		protected $filterStack;
-
-		protected $section;
-
-		public function __construct(Sections\Type $section) {
-			$this->filterStack = [];
-			$this->section = $section;
-		}
-
-		public function __call($name, $arguments) {
-			switch ($name) {
-				case 'all':
-				case 'any':
-					array_unshift($arguments, $name);
-
-					return (new ReflectionMethod($this, 'filterBuilder'))
-						->invokeArgs($this, $arguments);
-			}
-		}
-
-		public function filterBuilder($mode, callable $callback) {
-			$parent = $this->filterCurrent;
-			$this->filterCurrent = (object)[
-				'all' => []
-			];
-			$results = [];
-
-			array_push($this->filterStack, $parent);
-
-			$callback = $callback->bindTo($this);
-			$callback(function($name) {
-				$field = $this->section->fields()->{$name};
-
-				return new DataFilters\Controller(
-					$field->filters(),
-					$this->filterCurrent->all
-				);
-			});
-
-			if (isset($parent->{'any'})) {
-				$parent->{'any'}[] = $this->filterCurrent;
-			}
-
-			else if (isset($parent->{'all'})) {
-				$parent->{'all'}[] = $this->filterCurrent;
-			}
-
-			$parent = array_pop($this->filterStack);
-
-			if ($parent) $this->filterCurrent = $parent;
-		}
-	}
-
-	class Entry {
-		protected $section;
-
-		public function __construct(Sections\Type $section) {
-			$this->section = $section;
-		}
-
-		public function validate() {
-			foreach ($this->section->fields() as $field) {
-				try {
-					foreach ($field->validate() as $result) {
-						if ($result instanceof Fields\ValidationException) {
-							yield $field => $result;
-						}
-					}
-				}
-
-				catch (Fields\ValidationException $error) {
-					yield $field => $error;
-				}
-			}
-		}
-	}
-
 	/*
-	$query = new SectionQuery($section);
+	$section = new Section();
+	$section->openUri('assets/section.articles.xml');
+	$query = new Entries($section);
 
 	$query->all(function($and) {
 		$and('title')
@@ -99,22 +20,48 @@
 			$or('publish-date')
 				->earlierThan('now');
 
-			$this->all(function($and) {
+			$this->none(function($and) {
 				$and('title')
 					->is('foobar')
 					->isNot('boofar');
 			});
 		});
 	});
+
+	var_dump($query);
 	*/
 
-	$section = new Sections\Type();
+
+
+
+
+
+
+
+
+
+	// Connect to the database:
+	require_once 'db.php';
+
+	$section = new Section();
 	$section->openUri('assets/section.articles.xml');
+
+	//var_dump($section->fields()->{'title'}->format()->settings());
+
+	//exit;
+
+	// Install table schema:
+	$section->install();
+
 	$entry = new Entry($section);
-	$valid = true;
+	$entry->{'title'} = 'Foobar';
+	$entry->{'copy'} = 'Boofar foobar.';
+	$entry->{'publish-date'} = '2013-08-18 01:00:00';
 
 	// Validate all fields and get any errors:
-	foreach ($entry->validate() as $error) {
+	$valid = true;
+
+	foreach ($entry->validate() as $field => $error) {
 		var_dump($error);
 
 		$valid = false;
@@ -122,5 +69,7 @@
 
 	// Save the entry:
 	if ($valid) {
-		$entry->save();
+		$entry->write();
+
+		printf('<p>Entry %d created.</p>', $entry->getId());
 	}

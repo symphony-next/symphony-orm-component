@@ -1,8 +1,8 @@
 <?php
 
-	namespace symphony\ORM\DataFilters;
+	namespace symphony\ORM\Filters;
 
-	class DateRange implements NumericRangeType {
+	class DateRange implements NumericRangeFilter {
 		public function listMethods() {
 			return [
 				'between' =>		'between',

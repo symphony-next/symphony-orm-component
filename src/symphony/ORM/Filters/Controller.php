@@ -1,6 +1,6 @@
 <?php
 
-	namespace symphony\ORM\DataFilters;
+	namespace symphony\ORM\Filters;
 	use ReflectionMethod;
 
 	class Controller {
@@ -24,7 +24,7 @@
 			return $this;
 		}
 
-		public function addFilter(Type $filter) {
+		public function addFilter(Filter $filter) {
 			foreach ($filter->listMethods() as $actual => $alias) {
 				$this->methods[$alias] = (object)[
 					'filter' =>		$filter,

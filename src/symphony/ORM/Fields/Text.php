@@ -1,20 +1,20 @@
 <?php
 
 	namespace symphony\ORM\Fields;
-	use symphony\ORM\DataFilters;
+	use symphony\ORM\Filters;
+	use symphony\ORM\Formats;
+	use symphony\ORM\Sections\Entry;
+	use symphony\ORM\Sections\Section;
+	use PDO;
 
-	class Text extends Type implements FilterableType {
-		public function filters() {
-			return [
-				new DataFilters\Equality()
-			];
+	class Text extends Field implements FilterableField {
+		public function format() {
+			return $this->format;
 		}
 
-		public function validate() {
-			if ($this->settings()->required === 'yes') {
-				throw new RequiredException("'{$this->settings()->handle}' is a required field.");
-			}
-
-			yield true;
+		public function filters() {
+			return [
+				new Filters\Equality()
+			];
 		}
 	}

@@ -1,8 +1,8 @@
 <?php
 
-	namespace symphony\ORM\DataFilters;
+	namespace symphony\ORM\Filters;
 
-	class Boolean implements BooleanType {
+	class Boolean implements BooleanFilter {
 		public function listMethods() {
 			return [
 				'filter' =>		'is',

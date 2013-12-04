@@ -1,8 +1,8 @@
 <?php
 
-	namespace symphony\ORM\DataFilters;
+	namespace symphony\ORM\Filters;
 
-	class Toggle implements BooleanType {
+	class Toggle implements BooleanFilter {
 		public function listMethods() {
 			return [
 				'filter' =>		'isChecked',

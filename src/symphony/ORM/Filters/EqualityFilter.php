@@ -1,8 +1,8 @@
 <?php
 
-	namespace symphony\ORM\DataFilters;
+	namespace symphony\ORM\Filters;
 
-	interface EqualityType extends Type {
+	interface EqualityFilter extends Filter {
 		public function filter($value);
 		public function notFilter($value);
 	}

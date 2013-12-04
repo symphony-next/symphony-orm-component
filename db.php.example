@@ -1,0 +1,21 @@
+<?php
+
+	class Database {
+		static protected $instance;
+
+		static public function connect(PDO $instance) {
+			self::$instance = $instance;
+		}
+
+		static public function instance() {
+			return self::$instance;
+		}
+	}
+
+	Database::connect(new PDO('mysql:host=127.0.0.1;dbname=symphony-next', 'user', 'pass', [
+		PDO::ATTR_ERRMODE =>	PDO::ERRMODE_EXCEPTION
+	]));
+
+	function database() {
+		return Database::instance();
+	}

@@ -1,18 +1,23 @@
 <section>
-	<handle>Articles</handle>
+	<handle>articles</handle>
 	<fields>
 		<field type="symphony\ORM\Fields\Text">
 			<handle>title</handle>
 			<required>yes</required>
+			<format type="symphony\ORM\Formats\Text" />
 		</field>
 		<field type="symphony\ORM\Fields\Text">
 			<handle>copy</handle>
+			<format type="symphony\ORM\Formats\Text" />
 		</field>
 		<field type="symphony\ORM\Fields\Date">
 			<handle>publish-date</handle>
+			<required>yes</required>
+			<format type="symphony\ORM\Formats\Date" />
 		</field>
 		<field type="symphony\ORM\Fields\Toggle">
 			<handle>published</handle>
+			<format type="symphony\ORM\Formats\Toggle" />
 		</field>
 	</fields>
 </section>

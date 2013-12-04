@@ -1,8 +1,8 @@
 <?php
 
-	namespace symphony\ORM\DataFilters;
+	namespace symphony\ORM\Filters;
 
-	class Equality implements EqualityType {
+	class Equality implements EqualityFilter {
 		public function listMethods() {
 			return [
 				'filter' =>		'is',

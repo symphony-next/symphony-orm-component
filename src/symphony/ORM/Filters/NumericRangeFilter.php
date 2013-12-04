@@ -1,8 +1,8 @@
 <?php
 
-	namespace symphony\ORM\DataFilters;
+	namespace symphony\ORM\Filters;
 
-	interface NumericRangeType extends Type {
+	interface NumericRangeFilter extends Filter {
 		public function between($from, $to);
 		public function lessThan($value);
 		public function greaterThan($value);
