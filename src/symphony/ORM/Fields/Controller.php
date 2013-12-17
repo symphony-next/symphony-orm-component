@@ -3,6 +3,7 @@
 	namespace symphony\ORM\Fields;
 	use ArrayIterator;
 	use DOMElement;
+	use StdClass;
 
 	class Controller extends ArrayIterator {
 		public function __construct() {
@@ -25,6 +26,19 @@
 
 		public function __unset($handle) {
 			$this->offsetUnset($handle);
+		}
+
+		public function fromObject(StdClass $settings) {
+			foreach ($settings as $value) {
+				if (($value instanceof StdClass) === false) continue;
+
+				$type = $value->type;
+				$field = new $type();
+				$field->settings->fromObject($value);
+				$handle = $field->settings()->handle;
+
+				$this->offsetSet($handle, $field);
+			}
 		}
 
 		public function fromXML(DOMElement $xml) {

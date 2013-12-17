@@ -18,10 +18,8 @@
 		}
 
 		public function openUri($file) {
-			$document = new DOMDocument();
-			$document->load($file);
-
-			$this->settings->fromXML($document->documentElement);
+			$settings = json_decode(file_get_contents($file));
+			$this->settings->fromObject($settings);
 		}
 
 		public function install() {

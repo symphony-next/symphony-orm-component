@@ -9,7 +9,7 @@
 
 	class Text extends Field implements FilterableField {
 		public function format() {
-			return $this->format;
+			return new Formats\Text();
 		}
 
 		public function filters() {

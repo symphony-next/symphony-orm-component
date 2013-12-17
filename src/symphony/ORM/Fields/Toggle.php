@@ -9,7 +9,7 @@
 
 	class Toggle extends Field implements FilterableField {
 		public function format() {
-			return new Formats\Toggle($this);
+			return new Formats\Toggle();
 		}
 
 		public function filters() {

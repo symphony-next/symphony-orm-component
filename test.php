@@ -6,9 +6,8 @@
 
 	require_once 'vendor/autoload.php';
 
-	/*
 	$section = new Section();
-	$section->openUri('assets/section.articles.xml');
+	$section->openUri('assets/section.articles.json');
 	$query = new Entries($section);
 
 	$query->all(function($and) {
@@ -29,7 +28,6 @@
 	});
 
 	var_dump($query);
-	*/
 
 
 
@@ -39,7 +37,7 @@
 
 
 
-
+	/*
 	// Connect to the database:
 	require_once 'db.php';
 
@@ -73,3 +71,4 @@
 
 		printf('<p>Entry %d created.</p>', $entry->getId());
 	}
+	*/

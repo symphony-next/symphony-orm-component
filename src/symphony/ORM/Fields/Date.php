@@ -10,7 +10,7 @@
 
 	class Date extends Field implements FilterableField {
 		public function format() {
-			return new Formats\Date($this);
+			return new Formats\Date();
 		}
 
 		public function filters() {

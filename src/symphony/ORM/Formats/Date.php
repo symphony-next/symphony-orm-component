@@ -9,8 +9,6 @@
 	use PDO;
 
 	class Date implements Format {
-		use FormatUtilities;
-
 		const FORMAT = 'Y-m-d H:i:s';
 
 		public function install(Section $section, Field $field) {

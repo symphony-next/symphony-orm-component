@@ -9,8 +9,6 @@
 	use PDO;
 
 	class Toggle implements Format {
-		use FormatUtilities;
-
 		public function install(Section $section, Field $field) {
 			database()->query(sprintf(
 				"

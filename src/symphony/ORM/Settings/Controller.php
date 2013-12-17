@@ -32,6 +32,18 @@
 			$this->offsetUnset($name);
 		}
 
+		public function fromObject(StdClass $settings) {
+			foreach ($settings as $key => $value) {
+				if (isset($this->mappings[$key])) {
+					$this->mappings[$key]->fromObject((object)$value);
+				}
+
+				else {
+					$this->offsetSet($key, $value);
+				}
+			}
+		}
+
 		public function fromXML(DOMElement $xml) {
 			foreach ($xml->childNodes as $node) {
 				if (($node instanceof DOMElement) === false) continue;
